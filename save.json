@@ -1,0 +1,205 @@
+{
+    "midibank_amount": 4,
+    "midibank": [
+        {
+            "name": "Bank0",
+            "midipreset_amount": 4,
+            "midipreset": [
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 8,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 9,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 10,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 11,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bank1",
+            "midipreset_amount": 4,
+            "midipreset": [
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 0,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 1,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 2,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 3,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bank2",
+            "midipreset_amount": 4,
+            "midipreset": [
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 20,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 21,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 22,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 192,
+                            "data1": 23,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "ETC3",
+            "midipreset_amount": 4,
+            "midipreset": [
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 176,
+                            "data1": 11,
+                            "data2": 127,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 176,
+                            "data1": 11,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 176,
+                            "data1": 69,
+                            "data2": 0,
+                            "channel": 1
+                        }
+                    ]
+                },
+                {
+                    "midimessage_amount": 1,
+                    "midimessage": [
+                        {
+                            "type": 176,
+                            "data1": 69,
+                            "data2": 127,
+                            "channel": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
