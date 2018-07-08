@@ -1,0 +1,50 @@
+{
+    "name": "Bank0",
+    "midipreset_amount": 4,
+    "midipreset": [
+        {
+            "midimessage_amount": 1,
+            "midimessage": [
+                {
+                    "type": 192,
+                    "data1": 8,
+                    "data2": 0,
+                    "channel": 1
+                }
+            ]
+        },
+        {
+            "midimessage_amount": 1,
+            "midimessage": [
+                {
+                    "type": 192,
+                    "data1": 9,
+                    "data2": 0,
+                    "channel": 1
+                }
+            ]
+        },
+        {
+            "midimessage_amount": 1,
+            "midimessage": [
+                {
+                    "type": 192,
+                    "data1": 10,
+                    "data2": 0,
+                    "channel": 1
+                }
+            ]
+        },
+        {
+            "midimessage_amount": 1,
+            "midimessage": [
+                {
+                    "type": 192,
+                    "data1": 11,
+                    "data2": 0,
+                    "channel": 1
+                }
+            ]
+        }
+    ]
+}

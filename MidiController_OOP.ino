@@ -99,7 +99,13 @@ void setup() {
   if (!saveJsonFile.find("\"midibank\": [")) {
     loopReport("Invalid json file");
   }
-  while (true) {
+  for (int index = 0; ; index++) {
+    // Build file Name
+    char file_name[30];
+    sprintf(file_name, "/midibank/%02d.json\0", index);
+    Serial.println(file_name);    
+
+
     DynamicJsonBuffer json_buffer(1500);
     JsonObject &bank_json = json_buffer.parseObject(saveJsonFile);
     midicontroller.insertBank();
