@@ -89,23 +89,22 @@ void setup() {
   // Loading save.json SPIFFS
   midicontroller.init();
   SPIFFS.begin();
-  File saveJsonFile = SPIFFS.open("/save.json", "r");
-  // Check if file not exists 
-  if (!saveJsonFile) {
-    loopReport("File not exists");
-  }
-  
-  /* Loop for loading each MidiBank */
-  if (!saveJsonFile.find("\"midibank\": [")) {
-    loopReport("Invalid json file");
-  }
-  for (int index = 0; ; index++) {
+  for (int bank_index = 0; ; bank_index++) {
     // Build file Name
     char file_name[30];
-    sprintf(file_name, "/midibank/%02d.json\0", index);
-    Serial.println(file_name);    
-
-
+    sprintf(file_name, "/midibank/%02d.json\0", bank_index);
+    Serial.print(file_name);
+    
+    File saveJsonFile = SPIFFS.open(file_name, "r");
+    // break the loop if it not exists
+    if (!saveJsonFile) {
+      Serial.print(file_name);
+      Serial.println(" not found");
+      midicontroller.bankUp();
+      bank_current = midicontroller.getBankCurrent();
+      break;
+    }
+    
     DynamicJsonBuffer json_buffer(1500);
     JsonObject &bank_json = json_buffer.parseObject(saveJsonFile);
     midicontroller.insertBank();
@@ -127,13 +126,7 @@ void setup() {
       }
     }
 
-    // Exits the loop if loaded every banks;
-    if (!saveJsonFile.findUntil(",", "]")) {
-      saveJsonFile.close();
-      midicontroller.bankUp();
-      bank_current = midicontroller.getBankCurrent();
-      break;
-    }
+    saveJsonFile.close();
   }
 
   /*/// MIDI Controller Setup
