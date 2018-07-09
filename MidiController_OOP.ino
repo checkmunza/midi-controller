@@ -16,6 +16,17 @@ inline MidiType getMidiType(int val) {
   }
 }
 
+int getIntType(MidiType val) {
+  switch (val) {
+    case ProgramChange:
+      return 0xC0;
+    case ControlChange:
+      return 0xB0;
+    default:
+      return 0;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Button
 #include <Bounce2.h>
@@ -71,10 +82,20 @@ void saveBankJson(int bank_index) {
   DynamicJsonBuffer json_buffer(2000);
   JsonObject &bank_json = json_buffer.createObject();
   bank_json["name"] = midicontroller.midibank[bank_index].getName();
-  JsonArray &midipreset_json = bank_json.createNestedArray("midipreset");
+  JsonArray &midipreset_arr_json = bank_json.createNestedArray("midipreset");
   for (int preset_index = 0; preset_index < midicontroller.midibank[bank_index].getMidiPresetAmount(); preset_index++) {
-    
+    JsonObject &midipreset_json = midipreset_arr_json.createNestedObject();
+    JsonArray &midimessage_arr_json = midipreset_json.createNestedArray("midimessage");
+    for (int message_index = 0; message_index < midicontroller.midibank[bank_index].midipreset[preset_index].getMidiMessageAmount(); message_index++) {
+      const MidiController::MidiMessage *midimessage = midicontroller.midibank[bank_index].midipreset[preset_index].getMidiMessage(message_index);
+      JsonObject &midimessage_json = midimessage_arr_json.createNestedObject();
+      midimessage_json["type"] = getIntType(midimessage->inType);
+      midimessage_json["data1"] = midimessage->inData1;
+      midimessage_json["data2"] = midimessage->inData2;
+      midimessage_json["channel"] = midimessage->inChannel;
+    }
   }
+  bank_json.prettyPrintTo(Serial);
 }
 
 // -----------------------------------------------------------------------------
@@ -124,12 +145,12 @@ void setup() {
     }
     midicontroller.bankUp();
     bank_current = midicontroller.getBankCurrent();
-    JsonArray &midipreset_json = bank_json["midipreset"];
-    midicontroller.midibank[bank_current].init(midipreset_json.size());
+    JsonArray &midipreset_arr_json = bank_json["midipreset"];
+    midicontroller.midibank[bank_current].init(midipreset_arr_json.size()); // TODO: Checking midipreset_amount
     midicontroller.midibank[bank_current].setName(bank_json["name"]);
-    for (int preset_index = 0; preset_index < midipreset_json.size(); preset_index++) {
-      JsonArray &midimessage_arr_json = midipreset_json[preset_index]["midimessage"];
-      midicontroller.midibank[bank_current].midipreset[preset_index].init(midimessage_arr_json.size());
+    for (int preset_index = 0; preset_index < midipreset_arr_json.size(); preset_index++) {
+      JsonArray &midimessage_arr_json = midipreset_arr_json[preset_index]["midimessage"];
+      midicontroller.midibank[bank_current].midipreset[preset_index].init(midimessage_arr_json.size()); // TODO: Checking midimessage_amount
       for (int message_index = 0; message_index < midimessage_arr_json.size(); message_index++) {
         JsonObject &midimessage_json = midimessage_arr_json[message_index];
         MidiType type = getMidiType(midimessage_json["type"].as<int>());
@@ -158,6 +179,12 @@ void loop() {
         break;
       case 1:
         midicontroller.sendMessage(0);
+        break;
+      case 2:
+        Serial.println("##### saveBankJson #####");
+        saveBankJson(bank_current);
+        Serial.println();
+        Serial.println("##########");
         break;
       case 8:
         midicontroller.sendMessage(3);

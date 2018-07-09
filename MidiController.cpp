@@ -47,6 +47,14 @@ namespace MidiController {
                 _midimessage[index].inChannel);
     }
   }
+
+  int MidiPreset::getMidiMessageAmount() {
+    return _midimessage_amount;
+  }
+
+  const MidiMessage* MidiPreset::getMidiMessage(int index) {
+    return &_midimessage[index];
+  }
   
   MidiPreset::MidiPreset() {
     _name[0] = '\0'; // Set NULL to the head of string

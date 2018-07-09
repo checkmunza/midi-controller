@@ -34,6 +34,8 @@ namespace MidiController {
     bool init(int midimessage_amount);
     bool load(int index, MidiType inType, DataByte inData1, DataByte inData2, Channel inChannel);
     inline void sendMessage();
+    int getMidiMessageAmount();
+    const MidiMessage *getMidiMessage(int index);
     
    private:
     char _name[MIDIPRESET_NAME_MAX + 1];
