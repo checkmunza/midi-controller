@@ -49,7 +49,7 @@ namespace MidiController {
     bool init(int midipreset_amount);
     int getMidiPresetAmount();
     void setName(const char *name);
-    char* getName();
+    const char *getName();
     
     
    private:

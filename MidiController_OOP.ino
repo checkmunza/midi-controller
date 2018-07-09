@@ -66,6 +66,17 @@ int button_read() {
 // ArduinoJson
 #include <ArduinoJson.h>
 
+void saveBankJson(int bank_index) {
+  // TODO: Save midibank JSON
+  DynamicJsonBuffer json_buffer(2000);
+  JsonObject &bank_json = json_buffer.createObject();
+  bank_json["name"] = midicontroller.midibank[bank_index].getName();
+  JsonArray &midipreset_json = bank_json.createNestedArray("midipreset");
+  for (int preset_index = 0; preset_index < midicontroller.midibank[bank_index].getMidiPresetAmount(); preset_index++) {
+    
+  }
+}
+
 // -----------------------------------------------------------------------------
 
 void loopReport(char *message) {
@@ -92,9 +103,7 @@ void setup() {
   for (int bank_index = 0; ; bank_index++) {
     // Build file Name
     char file_name[30];
-    sprintf(file_name, "/midibank/%02d.json\0", bank_index);
-    Serial.print(file_name);
-    
+    sprintf(file_name, "/midibank/%02d.json\0", bank_index);    
     File saveJsonFile = SPIFFS.open(file_name, "r");
     // break the loop if it not exists
     if (!saveJsonFile) {
@@ -107,17 +116,22 @@ void setup() {
     
     DynamicJsonBuffer json_buffer(1500);
     JsonObject &bank_json = json_buffer.parseObject(saveJsonFile);
-    midicontroller.insertBank();
+    saveJsonFile.close();
+
+    // MIDI Bank Setup
+    if (!midicontroller.insertBank()) {
+      loopReport("MidiController_bank is full.");
+    }
     midicontroller.bankUp();
     bank_current = midicontroller.getBankCurrent();
-    midicontroller.midibank[bank_current].init(bank_json["midipreset_amount"]);
-    midicontroller.midibank[bank_current].setName(bank_json["name"]);
     JsonArray &midipreset_json = bank_json["midipreset"];
-    for (int preset_index = 0; preset_index < bank_json["midipreset_amount"]; preset_index++) {
-      int midimessage_amount = midipreset_json[preset_index]["midimessage_amount"];
-      midicontroller.midibank[bank_current].midipreset[preset_index].init(midimessage_amount);
-      for (int message_index = 0; message_index < midimessage_amount; message_index++) {
-        JsonObject &midimessage_json = midipreset_json[preset_index]["midimessage"][message_index];
+    midicontroller.midibank[bank_current].init(midipreset_json.size());
+    midicontroller.midibank[bank_current].setName(bank_json["name"]);
+    for (int preset_index = 0; preset_index < midipreset_json.size(); preset_index++) {
+      JsonArray &midimessage_arr_json = midipreset_json[preset_index]["midimessage"];
+      midicontroller.midibank[bank_current].midipreset[preset_index].init(midimessage_arr_json.size());
+      for (int message_index = 0; message_index < midimessage_arr_json.size(); message_index++) {
+        JsonObject &midimessage_json = midimessage_arr_json[message_index];
         MidiType type = getMidiType(midimessage_json["type"].as<int>());
         DataByte data1 = midimessage_json["data1"].as<byte>();
         DataByte data2 = midimessage_json["data2"].as<byte>();
@@ -125,25 +139,20 @@ void setup() {
         midicontroller.midibank[bank_current].midipreset[preset_index].load(message_index, type, data1, data2, channel);
       }
     }
-
-    saveJsonFile.close();
   }
 
-  /*/// MIDI Controller Setup
-  midicontroller.setBankAmount(4);
-  midicontroller.midibank[0].init(4);
-  midicontroller.midibank[0].midipreset[0].init(1);
-  midicontroller.midibank[0].midipreset[0].load(0, ProgramChange, 8, 0, 1);
-  midicontroller.midibank[0].midipreset[3].init(1);
-  midicontroller.midibank[0].midipreset[3].load(0, ProgramChange, 23, 0, 1);
-  //*/
-  Serial.println(midicontroller.midibank[bank_current].getName());
   Serial.println("End of Setup Function");
+  Serial.print("Current Bank: ");
+  Serial.println(midicontroller.midibank[bank_current].getName());
 }
 
 void loop() {
   button_update();
   if (button_status == BUTTON_NOT_PRESSING) {
+    if (button_pressed != 0) {
+      Serial.print("Button_pressed: ");
+      Serial.println(button_pressed);
+    }
     switch (button_pressed) {
       case 0:
         break;
@@ -156,11 +165,9 @@ void loop() {
       case 9:
         midicontroller.bankUp();
         bank_current = midicontroller.getBankCurrent();
+        Serial.print("Current Bank: ");
         Serial.println(midicontroller.midibank[bank_current].getName());
         break;
-    }
-    if (button_pressed != 0) {
-      Serial.println();
     }
     button_pressed = 0;
   }

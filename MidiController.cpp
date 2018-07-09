@@ -35,6 +35,8 @@ namespace MidiController {
 
   void MidiPreset::sendMessage() {
     for (int index = 0; index < _midimessage_amount; index++) {
+      Serial.print("Message: ");
+      Serial.println(index);
       Serial.println(_midimessage[index].inType);
       Serial.println(_midimessage[index].inData1);
       Serial.println(_midimessage[index].inData2);
@@ -71,7 +73,7 @@ namespace MidiController {
     strncpy(_name, name, MIDIBANK_NAME_MAX);
   }
 
-  char* MidiBank::getName() {
+  const char* MidiBank::getName() {
     return _name;
   }
 
