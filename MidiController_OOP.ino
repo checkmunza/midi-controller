@@ -108,6 +108,7 @@ void loopReport(char *message) {
 }
 
 void setup() {
+  
   /* Serial for debug Setup */
   Serial.begin(115200);
   Serial.println("Begin setup");
@@ -119,7 +120,7 @@ void setup() {
   // File Setup
   
   // Loading save.json SPIFFS
-  midicontroller.init();
+  midicontroller.begin();
   SPIFFS.begin();
   for (int bank_index = 0; ; bank_index++) {
     // Build file Name

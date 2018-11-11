@@ -2,6 +2,6 @@ MIDI Cable
 
     White (Pin 2) - Ground
 
-    Yellow (Pin 4) - Ra (33 Ohm) From Vtx (3.3 V)
+    Yellow(red) (Pin 4) - Ra (33 Ohm) From Vtx (3.3 V)
 
-    Green (Pin 5) - Rc (10 Ohm) From Wemos D4
+    Green(orange) (Pin 5) - Rc (10 Ohm) From Wemos D4

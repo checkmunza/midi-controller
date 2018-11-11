@@ -64,7 +64,7 @@ namespace MidiController {
     MidiBank midibank[MIDIBANK_MAX];
 
     MidiController();
-    void init();
+    void begin();
     bool setBankAmount(int midibank_amount);
     bool insertBank();
     void bankUp();

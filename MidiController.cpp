@@ -92,11 +92,11 @@ namespace MidiController {
 // -----------------------------------------------------------------------------
 
   MidiController::MidiController() {
-    int _midibank_amount = 0;
+    _midibank_amount = 0;
     _bank_current = -1;
   }
 
-  void MidiController::init() {
+  void MidiController::begin() {
     MIDI.begin(MIDI_CHANNEL_OFF);
   }
 
